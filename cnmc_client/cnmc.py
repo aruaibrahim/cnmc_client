@@ -9,10 +9,21 @@ CNCM_envs = {
     'staging': 'https://apipre.cnmc.gob.es',
 }
 
+def setup_log(instance, filename):
+    log_file = filename
+    logger = logging.getLogger(instance)
+    formatter = logging.Formatter('%(asctime)s %(levelname)s %(message)s')
+    hdlr = logging.FileHandler(log_file)
+    hdlr.setFormatter(formatter)
+    logger.addHandler(hdlr)
+    logger.setLevel(logging.INFO)
+
 class CNMC_API(object):
 
-    def __init__(self, key=None, secret=None, environment=None, **kwargs):
-        logging.info("Initializing CNCM Client")
+    def __init__(self, key=None, secret=None, environment=None, logfile='/tmp/cnmcapicalls.log', **kwargs):
+        setup_log(__name__, logfile)
+        logger = logging.getLogger(__name__)
+        logger.info("Initializing CNCM Client")
 
         # Handle the key
         if not key:
@@ -71,6 +82,9 @@ class CNMC_API(object):
         url = self.url + resource
         response = self.session.request(method=method, url=url, **kwargs)
 
+        logger = logging.getLogger(__name__)
+        logger.info("Request submitted")
+
         if download:
             return {
                 'code': response.status_code,
@@ -80,6 +94,7 @@ class CNMC_API(object):
 
         # Handle errors
         if response.status_code >= 400:
+            logger.info('Error {}, {}, {}, {}  exiting'.format(str(method), str(kwargs), str(url), str(response.content)))
             return {
                 'code': response.status_code,
                 'error': True,
