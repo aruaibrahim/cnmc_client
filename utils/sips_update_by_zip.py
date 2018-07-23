@@ -139,7 +139,7 @@ class CNMC_Utils(object):
             'name': line['cups'],
 	    'data_inicial':parse_datetime(line['fechaInicioMesConsumo']),
 	    'data_final': parse_datetime(line['fechaFinMesConsumo']),
-	    'tarifa': TARIFFS_OCSUM[line['codigoTarifaATR']] if line['codigoTarifaATREnVigor'] in TARIFFS_OCSUM else "",
+	    'tarifa': TARIFFS_OCSUM[line['codigoTarifaATR']] if line['codigoTarifaATR'] in TARIFFS_OCSUM else "",
 	    'activa_1': self._divide(line['consumoEnergiaActivaEnWhP1'], 1000),
 	    'activa_2': self._divide(line['consumoEnergiaActivaEnWhP2'], 1000),
 	    'activa_3': self._divide(line['consumoEnergiaActivaEnWhP3'], 1000),
