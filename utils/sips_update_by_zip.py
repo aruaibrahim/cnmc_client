@@ -159,7 +159,7 @@ class CNMC_Utils(object):
 	    'potencia_5': self._divide(line['potenciaDemandadaEnWP5'], 1000),
 	    'potencia_6': self._divide(line['potenciaDemandadaEnWP6'], 1000),
 	    'tipo_lectura': line['codigoTipoLectura'], #OJUT
-	}, { 'name': line['cups'], 'data_inicial': line['fechaInicioMesConsumo'], 'data_final': line['fechaFinMesConsumo'] }
+	}, { 'name': line['cups'] , 'data_inicial': parse_datetime(line['fechaInicioMesConsumo']), 'data_final': parse_datetime(line['fechaFinMesConsumo'])}
         
     def get_counter(self, file_type):
         try:
