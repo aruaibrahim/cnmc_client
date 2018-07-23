@@ -37,10 +37,14 @@ def handle_persona_fj(tipoIdTitular):
     """
     Return 0 if NI, 1 if CI
     """
-    return {
+    tipos = {
         'NI': 0,
-        'CI': 1
-    }[tipoIdTitular]
+        'CI': 1,
+    }
+    if tipoIdTitular in tipos:
+        return tipos[tipoIdTitular]
+    else:
+        return 0
     
 
 def handle_or_None(what):
